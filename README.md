@@ -51,6 +51,11 @@ Game state is preserved using `localStorage`.
 
 ## 5. FUTURE REFACTORING (TO UNITY/GODOT)
 To port this engine:
-* Replace the `state` object with a `JSON` or `Resource` save file.
 * Map the 10Hz `setInterval` to the engine's `Process` or `Update` loop.
 * Replace the `els` object with UI Canvas references.
+
+## 6. LICENSE
+
+This project is licensed under the **MIT License**.  
+You are free to use, modify, and distribute this software with proper attribution.  
+See the `LICENSE` file for full details.
