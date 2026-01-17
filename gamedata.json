@@ -18,7 +18,7 @@
         {"id": "mill", "name": "Windmill", "cost": 45000, "power": 2500, "icon": "px-wind"}
       ]
     },
-    { "id": "industrial", "name": "Industrial Age", currency: "Coal", "backgroundClass": "bg-industrial", "unlockCost": 500000, 
+    { "id": "industrial", "name": "Industrial Age", "currency": "Coal", "backgroundClass": "bg-industrial", "unlockCost": 500000, 
       "upgrades": [
         {"id": "engine", "name": "Steam Engine", "cost": 150000, "power": 12000, "icon": "px-gear"},
         {"id": "factory", "name": "Assembly Line", "cost": 800000, "power": 65000, "icon": "px-buildings"}
