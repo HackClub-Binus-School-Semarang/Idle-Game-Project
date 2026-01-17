@@ -3,6 +3,24 @@
 let AGES = [];
 let MILESTONES = [];
 
+const GAME_DATA_URL = "https://raw.githubusercontent.com/HackClub-Binus-School-Semarang/Idle-Game-Project/refs/heads/main/gamedata.json";
+
+async function loadGameData() {
+  try {
+    const res = await fetch(GAME_DATA_URL);
+    if (!res.ok) throw new Error("Failed to load game data");
+
+    const data = await res.json();
+    AGES = data.ages;
+    MILESTONES = data.milestones;
+
+    console.log("Game data loaded:", data);
+  } catch (err) {
+    console.error("Game data error:", err);
+    alert("Failed to load game data. Check your connection.");
+  }
+}
+
 /* ================= GAME STATE (SAVE DATA) ================= */
 let state = {
   ageIndex: 0,
@@ -240,6 +258,13 @@ setInterval(() => {
 // Auto-save: 30s
 setInterval(saveGame, 30000);
 
-// Bootstrap
-loadGame();
-if (state.ageIndex > 0) document.body.className = AGES[state.ageIndex].backgroundClass;
+async function bootstrap() {
+  await loadGameData();
+  loadGame();
+
+  if (state.ageIndex > 0) {
+    document.body.className = AGES[state.ageIndex].backgroundClass;
+  }
+}
+
+bootstrap();
