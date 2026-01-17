@@ -1,9 +1,11 @@
 "use strict";
 
+/* ================= GAME DATA (LOADED FROM JSON) ================= */
 let AGES = [];
 let MILESTONES = [];
 
-const GAME_DATA_URL = "https://raw.githubusercontent.com/HackClub-Binus-School-Semarang/Idle-Game-Project/refs/heads/main/gamedata.json";
+const GAME_DATA_URL =
+  "https://raw.githubusercontent.com/HackClub-Binus-School-Semarang/Idle-Game-Project/refs/heads/main/gamedata.json";
 
 async function loadGameData() {
   try {
@@ -14,10 +16,10 @@ async function loadGameData() {
     AGES = data.ages;
     MILESTONES = data.milestones;
 
-    console.log("Game data loaded:", data);
+    console.log("Game data loaded");
   } catch (err) {
     console.error("Game data error:", err);
-    alert("Failed to load game data. Check your connection.");
+    alert("Failed to load game data.");
   }
 }
 
@@ -64,15 +66,18 @@ function formatNumber(num) {
 /* ================= ENGINE LOGIC ================= */
 function calculateIncome() {
   let base = 0;
+
   AGES.forEach(age => {
     age.upgrades.forEach(upg => {
       base += (state.ownedUpgrades[upg.id] || 0) * upg.power;
     });
   });
 
-  let mult = 1 + (state.shards * 0.1);
+  let mult = 1 + state.shards * 0.1;
   MILESTONES.forEach(m => {
-    if (state.achievedMilestones.includes(m.id)) mult *= m.boost;
+    if (state.achievedMilestones.includes(m.id)) {
+      mult *= m.boost;
+    }
   });
 
   state.perSecond = base * mult;
@@ -80,6 +85,7 @@ function calculateIncome() {
 
 function checkMilestones() {
   let changed = false;
+
   MILESTONES.forEach(m => {
     if (!state.achievedMilestones.includes(m.id)) {
       if ((state.ownedUpgrades[m.requirement.id] || 0) >= m.requirement.count) {
@@ -88,6 +94,7 @@ function checkMilestones() {
       }
     }
   });
+
   if (changed) {
     calculateIncome();
     renderChronicle();
@@ -95,20 +102,25 @@ function checkMilestones() {
 }
 
 function getPendingShards() {
-  const potential = Math.floor(Math.sqrt(state.lifetimeEarnings / 1000000));
+  const potential = Math.floor(Math.sqrt(state.lifetimeEarnings / 1_000_000));
   return Math.max(0, potential - state.shards);
 }
 
 /* ================= VIEW RENDERING ================= */
 function renderChronicle() {
   if (!els.milestones) return;
-  els.milestones.innerHTML = state.achievedMilestones.length === 0 ? 
-    "<p style='opacity:0.5'>No historical records yet...</p>" : "";
-  
+
+  els.milestones.innerHTML =
+    state.achievedMilestones.length === 0
+      ? "<p style='opacity:0.5'>No historical records yet...</p>"
+      : "";
+
   MILESTONES.forEach(m => {
     if (state.achievedMilestones.includes(m.id)) {
       const el = document.createElement("div");
-      el.innerHTML = `<i class="px px-check"></i> <strong>${m.name}</strong> (+${Math.round((m.boost-1)*100)}%)`;
+      el.innerHTML = `<strong>${m.name}</strong> (+${Math.round(
+        (m.boost - 1) * 100
+      )}%)`;
       els.milestones.appendChild(el);
     }
   });
@@ -117,79 +129,94 @@ function renderChronicle() {
 function renderShop() {
   const age = AGES[state.ageIndex];
   els.shop.innerHTML = "";
+
   age.upgrades.forEach(upg => {
     const count = state.ownedUpgrades[upg.id] || 0;
     const cost = Math.floor(upg.cost * Math.pow(1.15, count));
+
     const item = document.createElement("div");
-    item.className = `shop-item ${state.currency < cost ? 'locked' : ''}`;
+    item.className = `shop-item ${state.currency < cost ? "locked" : ""}`;
+
     item.innerHTML = `
       <div class="shop-info">
-        <h4 class="pixel-text"><i class="px ${upg.icon}"></i> ${upg.name} (x${count})</h4>
+        <h4><i class="px ${upg.icon}"></i> ${upg.name} (x${count})</h4>
         <p>+${formatNumber(upg.power)}/s | Cost: ${formatNumber(cost)}</p>
       </div>
-      <button class="buy-btn" ${state.currency < cost ? 'disabled' : ''}>BUY</button>`;
-    
-    item.querySelector('.buy-btn').onclick = () => buyUpgrade(upg, cost);
+      <button class="buy-btn" ${state.currency < cost ? "disabled" : ""}>BUY</button>
+    `;
+
+    item.querySelector(".buy-btn").onclick = () => buyUpgrade(upg, cost);
     els.shop.appendChild(item);
   });
 }
 
 function updateUI() {
   els.curAmount.textContent = formatNumber(state.currency);
+
   const age = AGES[state.ageIndex];
   const next = AGES[state.ageIndex + 1];
 
   if (next) els.advance.disabled = state.currency < next.unlockCost;
-  
-  // Refresh button states without re-rendering whole shop
-  const buttons = els.shop.querySelectorAll('.buy-btn');
+
+  const buttons = els.shop.querySelectorAll(".buy-btn");
   age.upgrades.forEach((upg, i) => {
-    const cost = Math.floor(upg.cost * Math.pow(1.15, (state.ownedUpgrades[upg.id] || 0)));
+    const cost = Math.floor(
+      upg.cost * Math.pow(1.15, state.ownedUpgrades[upg.id] || 0)
+    );
     buttons[i].disabled = state.currency < cost;
-    buttons[i].parentElement.classList.toggle('locked', state.currency < cost);
+    buttons[i].parentElement.classList.toggle("locked", state.currency < cost);
   });
 
   if (els.prestigePanel && !els.prestigePanel.hidden) {
     const pending = getPendingShards();
-    els.prestigeInfo.innerHTML = `Shards: ${formatNumber(state.shards)} | Pending: <span style="color:#0f0">+${formatNumber(pending)}</span>`;
-    els.bigBang.disabled = (pending <= 0);
+    els.prestigeInfo.innerHTML = `Shards: ${formatNumber(
+      state.shards
+    )} | Pending: <span style="color:#0f0">+${formatNumber(pending)}</span>`;
+    els.bigBang.disabled = pending <= 0;
   }
 }
 
 function applyAgeState() {
   const age = AGES[state.ageIndex];
+
   document.body.className = age.backgroundClass;
   els.ageName.textContent = age.name;
   els.curName.textContent = age.currency;
-  
+
   const next = AGES[state.ageIndex + 1];
   if (next) {
     els.advance.hidden = false;
-    els.advance.querySelector('span').textContent = `EVOLVE (${formatNumber(next.unlockCost)})`;
+    els.advance.querySelector("span").textContent = `EVOLVE (${formatNumber(
+      next.unlockCost
+    )})`;
   } else {
     els.advance.hidden = true;
   }
-  
-  if (els.prestigePanel) els.prestigePanel.hidden = (state.ageIndex < 4);
+
+  if (els.prestigePanel) {
+    els.prestigePanel.hidden = state.ageIndex < 4;
+  }
+
   renderShop();
   renderChronicle();
 }
 
 /* ================= PLAYER ACTIONS ================= */
 function buyUpgrade(upg, cost) {
-  if (state.currency >= cost) {
-    state.currency -= cost;
-    state.ownedUpgrades[upg.id] = (state.ownedUpgrades[upg.id] || 0) + 1;
-    calculateIncome();
-    checkMilestones();
-    renderShop();
-    updateUI();
-    saveGame();
-  }
+  if (state.currency < cost) return;
+
+  state.currency -= cost;
+  state.ownedUpgrades[upg.id] = (state.ownedUpgrades[upg.id] || 0) + 1;
+
+  calculateIncome();
+  checkMilestones();
+  renderShop();
+  updateUI();
+  saveGame();
 }
 
 function gather() {
-  const power = 1 + (state.perSecond * 0.1);
+  const power = 1 + state.perSecond * 0.1;
   state.currency += power;
   state.lifetimeEarnings += power;
   updateUI();
@@ -197,27 +224,29 @@ function gather() {
 
 function evolve() {
   const next = AGES[state.ageIndex + 1];
-  if (next && state.currency >= next.unlockCost) {
-    state.currency -= next.unlockCost;
-    state.ageIndex++;
-    applyAgeState();
-    updateUI();
-    saveGame();
-  }
+  if (!next || state.currency < next.unlockCost) return;
+
+  state.currency -= next.unlockCost;
+  state.ageIndex++;
+
+  applyAgeState();
+  updateUI();
+  saveGame();
 }
 
 function bigBang() {
-  if (confirm("Trigger a Big Bang? Reset current progress for permanent Shards.")) {
-    state.shards += getPendingShards();
-    state.ageIndex = 0;
-    state.currency = 0;
-    state.ownedUpgrades = {};
-    state.lifetimeEarnings = 0; 
-    calculateIncome();
-    applyAgeState();
-    updateUI();
-    saveGame();
-  }
+  if (!confirm("Trigger a Big Bang? Reset progress for permanent Shards.")) return;
+
+  state.shards += getPendingShards();
+  state.ageIndex = 0;
+  state.currency = 0;
+  state.ownedUpgrades = {};
+  state.lifetimeEarnings = 0;
+
+  calculateIncome();
+  applyAgeState();
+  updateUI();
+  saveGame();
 }
 
 /* ================= SYSTEM: PERSISTENCE ================= */
@@ -227,12 +256,13 @@ function saveGame() {
 
 function loadGame() {
   const saved = localStorage.getItem("agesIdleSave");
-  if (saved) {
-    try {
-      const data = JSON.parse(saved);
-      state = { ...state, ...data };
-      calculateIncome();
-    } catch(e) { console.error("Load failed."); }
+  if (!saved) return;
+
+  try {
+    state = { ...state, ...JSON.parse(saved) };
+    calculateIncome();
+  } catch {
+    console.error("Save load failed");
   }
 }
 
@@ -247,7 +277,7 @@ els.gather.onclick = gather;
 els.advance.onclick = evolve;
 if (els.bigBang) els.bigBang.onclick = bigBang;
 
-// Tick: 10hz
+// Tick (10 Hz)
 setInterval(() => {
   const gain = state.perSecond / 10;
   state.currency += gain;
@@ -255,9 +285,10 @@ setInterval(() => {
   updateUI();
 }, 100);
 
-// Auto-save: 30s
+// Auto-save
 setInterval(saveGame, 30000);
 
+/* ================= BOOTSTRAP ================= */
 async function bootstrap() {
   await loadGameData();
   loadGame();
