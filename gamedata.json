@@ -1,0 +1,39 @@
+{
+  "ages": [
+    { "id": "stone", "name": "Stone Age", "currency": "Food", "backgroundClass": "bg-stone", "unlockCost": 0, 
+      "upgrades": [
+        {"id": "stick", "name": "Sharp Stick", "cost": 15, "power": 1, "icon": "px-plus"},
+        {"id": "fire", "name": "Fire Pit", "cost": 100, "power": 5, "icon": "px-sun"}
+      ]
+    },
+    { "id": "classical", "name": "Classical Age", "currency": "Olives", "backgroundClass": "bg-classical", "unlockCost": 1500, 
+      "upgrades": [
+        {"id": "press", "name": "Olive Press", "cost": 500, "power": 25, "icon": "px-archive"},
+        {"id": "scroll", "name": "Philosophy", "cost": 2500, "power": 120, "icon": "px-book"}
+      ]
+    },
+    { "id": "medieval", "name": "Medieval Age", "currency": "Gold", "backgroundClass": "bg-medieval", "unlockCost": 25000, 
+      "upgrades": [
+        {"id": "plow", "name": "Iron Plow", "cost": 8000, "power": 500, "icon": "px-checkbox-on"},
+        {"id": "mill", "name": "Windmill", "cost": 45000, "power": 2500, "icon": "px-wind"}
+      ]
+    },
+    { "id": "industrial", "name": "Industrial Age", currency: "Coal", "backgroundClass": "bg-industrial", "unlockCost": 500000, 
+      "upgrades": [
+        {"id": "engine", "name": "Steam Engine", "cost": 150000, "power": 12000, "icon": "px-gear"},
+        {"id": "factory", "name": "Assembly Line", "cost": 800000, "power": 65000, "icon": "px-buildings"}
+      ]
+    },
+    { "id": "future", "name": "Future Age", "currency": "Credits", "backgroundClass": "bg-future", "unlockCost": 10000000, 
+      "upgrades": [
+        {"id": "ai", "name": "Quantum AI", "cost": 4000000, "power": 400000, "icon": "px-cpu"},
+        {"id": "dyson", "name": "Dyson Swarm", "cost": 25000000, "power": 2500000, "icon": "px-earth"}
+      ]
+    }
+  ],
+  "milestones": [
+    { "id": "m1", "name": "Discovery of Fire", "requirement": { "id": "fire", "count": 10 }, "boost": 1.05 },
+    { "id": "m2", "name": "Ancient Literacy", "requirement": { "id": "scroll", "count": 10 }, "boost": 1.05 },
+    { "id": "m3", "name": "Steam Revolution", "requirement": { "id": "engine", "count": 10 }, "boost": 1.10 }
+  ]
+}
