@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ages Idle</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Play Ages Idle! Advance through history, gather resources, and evolve your civilization in this addictive idle game.">
+  <meta name="keywords" content="idle game, incremental game, clicker game, Ages Idle, online game, evolution game">
+  <meta name="author" content="Hack Club Binus School Semarang">
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:title" content="Ages Idle - Play Online!">
+  <meta property="og:description" content="Advance through history in Ages Idle! Gather resources, evolve civilizations, and enjoy this fun incremental game.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourwebsite.com/">
+  <meta property="og:image" content="https://yourwebsite.com/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ages Idle - Play Online!">
+  <meta name="twitter:description" content="Advance through history in Ages Idle! Gather resources, evolve civilizations, and enjoy this fun incremental game.">
+  <meta name="twitter:image" content="https://yourwebsite.com/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  
+  <link href="https://unpkg.com/pixelarticons@1.8.1/pixelarticons.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main id="app">
+
+    <!-- noscript for SEO / crawlers -->
+    <noscript>
+      <section>
+        <h1>AGES IDLE</h1>
+        <p>Advance through history. One tick at a time. JavaScript is required to play the game.</p>
+      </section>
+    </noscript>
+
+    <section id="welcome-screen" class="panel">
+      <h1 id="game-title" class="pixel-text">AGES IDLE</h1>
+      <p class="pixel-sub">Advance through history.<br>One tick at a time.</p>
+      <button id="start-btn" class="pixel-btn">
+        START GAME
+      </button>
+    </section>
+
+    <section id="game-screen" class="panel" hidden>
+      
+      <header class="top-bar">
+        <h2 id="age-name" class="pixel-header">STONE AGE</h2>
+      </header>
+
+      <div class="currency-display crt-effect">
+        <span id="currency-amount">0</span>
+        <span id="currency-name">FOOD</span>
+      </div>
+
+      <div class="actions">
+        <button id="gather-btn" class="pixel-btn primary">
+          <i class="px px-pickaxe"></i>
+          <span>GATHER</span>
+        </button>
+
+        <button id="advance-age-btn" class="pixel-btn secondary" hidden>
+          <i class="px px-arrow-bar-up"></i>
+          <span>EVOLVE</span>
+        </button>
+      </div>
+
+      <hr class="pixel-divider">
+      
+      <div class="shop-container">
+        <h3 class="pixel-header" style="font-size: 0.8rem;">Upgrades</h3>
+        <div id="shop-list" class="shop-list">
+          </div>
+      </div>
+
+      <audio id="bg-music" loop></audio>
+      <audio id="sfx-click"></audio>
+      
+    </section>
+
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
