@@ -2,6 +2,11 @@
 
 A data-driven incremental game engine built with vanilla JavaScript. The system features a multi-age progression loop, achievement-based multipliers, and a Big Bang prestige mechanic.
 
+## Demo
+
+Check out this site live at: [Live Site](https://hackclub-binus-school-semarang.github.io/Idle-Game-Project/)!
+
+
 ## 1. CORE ARCHITECTURE
 
 The engine is designed using a **State-Logic-View** separation. This architecture makes the logic easily portable to professional game engines like Unity (C#) or Godot (GDScript).
