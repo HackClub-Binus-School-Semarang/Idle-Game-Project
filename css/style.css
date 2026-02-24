@@ -43,19 +43,19 @@ body.bg-future {
 /* BASE STYLES */
 * {
   box-sizing: border-box;
-  image-rendering: pixelated; /* Keeps everything crisp */
+  image-rendering: pixelated;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
   background-color: var(--bg-color);
-  font-family: 'VT323', monospace; /* Retro terminal font */
+  font-family: 'VT323', monospace;
   color: var(--text-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.5s step-end; /* "step-end" makes it snap instead of fade */
+  transition: background-color 0.5s step-end;
 }
 
 /* THE GAME BOY / PANEL CARD */
@@ -74,7 +74,7 @@ body {
 
 /* TITLES */
 .pixel-header, #game-title {
-  font-family: 'Press Start 2P', cursive; /* Blocky NES font */
+  font-family: 'Press Start 2P', cursive;
   font-size: 1.2rem;
   margin-bottom: 1.5rem;
   text-transform: uppercase;
@@ -87,7 +87,7 @@ body {
   margin-bottom: 2rem;
 }
 
-/* THE RESOURCE DISPLAY (LCD SCREEN) */
+/* THE RESOURCE DISPLAY */
 .currency-display {
   position: relative;
   background: var(--display-bg);
@@ -95,10 +95,10 @@ body {
   padding: 1rem;
   margin-bottom: 1.5rem;
   border: 4px solid rgba(0,0,0,0.3);
-  border-radius: 4px; /* Slight roundness for CRT feel */
+  border-radius: 4px;
   font-family: 'VT323', monospace;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.5); /* Inner shadow for depth */
-  min-width: 200px; /* Adjust based on your UI */
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+  min-width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -155,7 +155,7 @@ body {
   background: #fff;
   color: #000;
   box-shadow: 
-    inset -4px -4px 0px 0px rgba(0,0,0,0.2); /* Inner bevel */
+    inset -4px -4px 0px 0px rgba(0,0,0,0.2);
   
   transition: transform 0.1s;
 }
@@ -267,7 +267,7 @@ body.bg-future .currency-display {
   padding-right: 5px;
 }
 
-/* Custom scrollbar for that retro look */
+/* Custom scrollbar for retro look */
 .shop-container::-webkit-scrollbar {
   width: 8px;
 }
