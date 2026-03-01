@@ -8,7 +8,7 @@ A data-driven incremental game engine built with vanilla JavaScript. The system 
 
 ## Demo
 
-Check out this site live at: [Live Site](https://hackclub-binus-school-semarang.github.io/Idle-Game-Project/)!
+Check out this site live at: [GitHub Pages](https://hackclub-binus-school-semarang.github.io/Idle-Game-Project/)! or [Play on itch.io](https://rainier-ps.itch.io/ages-idle-evolution-engine)
 
 
 ## 1. CORE ARCHITECTURE
